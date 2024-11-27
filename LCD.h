@@ -11,11 +11,11 @@
 #include "def_principais.h"
 
 // Configurações do LCD
-#define DADOS_LCD PORTD      // 4 bits de dados do LCD no PORTD
-#define nibble_dados 1       // Usa o nibble baixo
+#define DADOS_LCD PORTB      // 4 bits de dados do LCD no PORTD
+#define nibble_dados 0       // Usa o nibble baixo
 #define CONTR_LCD PORTB      // PORT com os pinos de controle do LCD
-#define E PB1                // Pino de habilitação do LCD (enable)
-#define RS PB0               // Pino para instrução ou caractere
+#define E PB5                // Pino de habilitação do LCD (enable)
+#define RS PB4               // Pino para instrução ou caractere
 #define tam_vetor 5          // Número de dígitos para conversão em ident_num()
 #define conv_ascii 48        // Adiciona 48 para formato ASCII (ou 0 para números puros)
 

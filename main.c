@@ -1,91 +1,86 @@
-#include "teclado.h"
-#include "LCD.h"
-#include "EEPROM.h"
+/*
+ * main.c
+ *
+ *  Author: lauri
+ */ 
+
+#include <xc.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#include "teclado.h"
+#include "def_principais.h" // Inclusão de definições principais
+#include "LCD.h"
+#include "eeprom.h" // Inclui funções de leitura/escrita na EEPROM
 
-// Endereços de memória para senhas na EEPROM
-#define EEPROM_SENHA1 0x00
-#define EEPROM_SENHA2 0x04
+// Mensagens no LCD
+const char mensagem1[] = "Teclado 4x4\0";
+const char mensagem2[] = "Senha: \0";
+const char msg_correto[] = "Senha correta! \0";
+const char msg_incorreto[] = "Senha incorreta!\0";
 
-// Protótipo de funções auxiliares
-void solicitar_senha(char *senha_digitada);
-unsigned char verificar_senha(const char *senha_digitada, const char *senha_salva);
+#define EEPROM_SENHA_START 0x00 // Endereço inicial da senha na EEPROM
+#define TAM_SENHA 4 // Tamanho da senha (número de dígitos)
 
-int main(void) {
-    
-    DDRA |= (1 << PA1); // Configura PA1 como saída
+// Função principal
+int main() {
+	unsigned char senha_digitada[TAM_SENHA];
+	unsigned char senha_salva[TAM_SENHA];
+	unsigned char nr;
+	unsigned char indice = 0;
 
-    
-    char senha_digitada[5] = {0}; // Buffer para senha digitada
-    char senha_salva[5] = {0};    // Buffer para senha salva da EEPROM
-    unsigned char tentativas = 0;
+	DDRB = 0xFF;  // LCD no PORTB
+	DDRD = 0x0F;  // Configuração do teclado
+	PORTD = 0xFF; // Pull-ups no PORTD e colunas em 1
 
-    // Inicializações
-    DDRD = 0x0F; // Configura PORTD: 4 MSB como entrada (linhas), 4 LSB como saída (colunas)
-    DDRB = 0x03; // Configura PORTB: pinos de controle do LCD como saída
-    inic_LCD_4bits(); // Inicializa o LCD
+	EEPROM_escrita(0x00, '1');
+	EEPROM_escrita(0x01, '2');
+	EEPROM_escrita(0x02, '3');
+	EEPROM_escrita(0x03, '4');
 
-    escreve_LCD("Digite a senha:"); // Mensagem inicial no LCD
+	// Inicialização do LCD
+	inic_LCD_4bits();
+	escreve_LCD_Flash(mensagem1);
+	cmd_LCD(0xC0, 0); // Cursor na segunda linha
+	escreve_LCD_Flash(mensagem2);
 
-    while (1) {
-        
-        // Solicita e lê a senha digitada pelo teclado
-        solicitar_senha(senha_digitada);
+	// Leitura da senha salva na EEPROM
+	for (int i = 0; i < TAM_SENHA; i++) {
+		senha_salva[i] = EEPROM_leitura(EEPROM_SENHA_START + i);
+	}
 
-        // Carrega senha salva na EEPROM
-        for (unsigned char i = 0; i < 4; i++) {
-            senha_salva[i] = EEPROM_leitura(EEPROM_SENHA1 + i);
-        }
-        senha_salva[4] = '\0'; // Finaliza string
+	while (1) {
+		nr = ler_teclado(); // Lê o teclado constantemente
 
-        // Verifica se a senha digitada está correta
-        if (verificar_senha(senha_digitada, senha_salva)) {
-            escreve_LCD("Senha correta!");
-            break; // Sai do loop
-        } else {
-            escreve_LCD("Senha incorreta!");
-            tentativas++;
-            _delay_ms(2000); // Espera para leitura da próxima tentativa
-            escreve_LCD("Digite novamente:");
-        }
+		if (nr != 0xFF) { // Se uma tecla foi pressionada
+			cmd_LCD(0xC7 + indice, 0); // Atualiza cursor no LCD
+			cmd_LCD(nr, 1); // Exibe o dígito no LCD
+			senha_digitada[indice] = nr; // Armazena o dígito
+			indice++;
 
-        // Se exceder 3 tentativas, bloquear o sistema
-        if (tentativas >= 3) {
-            escreve_LCD("Acesso negado!");
-            while (1) {
-                // LED de alerta no pino A1
-                set_bit(PORTAs, PA1); // Liga o LED
-                _delay_ms(500);
-                clr_bit(PORTA, PA1); // Desliga o LED
-                _delay_ms(500);
-            }
-        }
-    }
+			if (indice == TAM_SENHA) { // Quando 4 dígitos forem digitados
+				// Verifica a senha
+				int senha_correta = 1;
+				for (int i = 0; i < TAM_SENHA; i++) {
+					if (senha_digitada[i] != senha_salva[i]) {
+						senha_correta = 0;
+						break;
+					}
+				}
 
-    return 0;
-}
+				// Exibe resultado no LCD
+				cmd_LCD(0xC0, 0); // Move para a segunda linha
+				if (senha_correta) {
+					escreve_LCD_Flash(msg_correto);
+					} else {
+					escreve_LCD_Flash(msg_incorreto);
+				}
 
-void solicitar_senha(char *senha_digitada) {
-    unsigned char tecla;
-    unsigned char posicao = 0;
-
-    escreve_LCD("Senha: "); // Mostra no LCD
-    while (posicao < 4) {
-        tecla = ler_teclado(); // Lê uma tecla
-        if (tecla != 0xFF) {   // Verifica se alguma tecla foi pressionada
-            senha_digitada[posicao++] = tecla; // Armazena o dígito
-            cmd_LCD('*', 1); // Exibe '*' no LCD para esconder o dígito
-        }
-    }
-    senha_digitada[4] = '\0'; // Finaliza a string
-}
-
-unsigned char verificar_senha(const char *senha_digitada, const char *senha_salva) {
-    for (unsigned char i = 0; i < 4; i++) {
-        if (senha_digitada[i] != senha_salva[i]) {
-            return 0; // Senha incorreta
-        }
-    }
-    return 1; // Senha correta
+				// Limpa índice para nova entrada
+				_delay_ms(2000); // Pausa para leitura
+				cmd_LCD(0x01, 0); // Limpa LCD
+				escreve_LCD_Flash(mensagem2);
+				indice = 0;
+			}
+		}
+	}
 }
