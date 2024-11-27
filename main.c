@@ -1,6 +1,7 @@
 /*
  * main.c
  *
+ * Created: 11/27/2024 7:51:40 AM
  *  Author: lauri
  */ 
 
@@ -29,8 +30,8 @@ int main() {
 	unsigned char indice = 0;
 
 	DDRB = 0xFF;  // LCD no PORTB
-	DDRD = 0x0F;  // Configuração do teclado
-	PORTD = 0xFF; // Pull-ups no PORTD e colunas em 1
+	DDRD = 0x0F;   
+	PORTD = 0xF0;
 
 	EEPROM_escrita(0x00, '1');
 	EEPROM_escrita(0x01, '2');
@@ -50,6 +51,7 @@ int main() {
 
 	while (1) {
 		nr = ler_teclado(); // Lê o teclado constantemente
+
 
 		if (nr != 0xFF) { // Se uma tecla foi pressionada
 			cmd_LCD(0xC7 + indice, 0); // Atualiza cursor no LCD
