@@ -1,4 +1,6 @@
 build/default/production/main.o.d build/default/production/main.o: main.c \
+ f:\program\ files\microchip\xc8\v2.50\avr\lib\gcc\avr\5.4.0\include\xc.h \
+ f:\program\ files\microchip\xc8\v2.50\avr\lib\gcc\avr\5.4.0\include\cci.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\io.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\sfr_defs.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\inttypes.h \
@@ -13,14 +15,21 @@ build/default/production/main.o.d build/default/production/main.o: main.c \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\common.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\fuse.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\lock.h \
+ f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\builtins.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\util\delay.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\util\delay_basic.h \
- f:\program\ files\microchip\xc8\v2.50\avr\avr\include\math.h \
+ f:\program\ files\microchip\xc8\v2.50\avr\avr\include\math.h teclado.h \
  def_principais.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\pgmspace.h \
  f:\program\ files\microchip\xc8\v2.50\avr\lib\gcc\avr\5.4.0\include\stddef.h \
  f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\interrupt.h \
- LCD.h teclado.h eeprom.h
+ LCD.h \
+ f:\program\ files\microchip\xc8\v2.50\avr\lib\gcc\avr\5.4.0\include\stdbool.h \
+ eeprom.h
+
+f:\program\ files\microchip\xc8\v2.50\avr\lib\gcc\avr\5.4.0\include\xc.h:
+
+f:\program\ files\microchip\xc8\v2.50\avr\lib\gcc\avr\5.4.0\include\cci.h:
 
 f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\io.h:
 
@@ -50,11 +59,15 @@ f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\fuse.h:
 
 f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\lock.h:
 
+f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\builtins.h:
+
 f:\program\ files\microchip\xc8\v2.50\avr\avr\include\util\delay.h:
 
 f:\program\ files\microchip\xc8\v2.50\avr\avr\include\util\delay_basic.h:
 
 f:\program\ files\microchip\xc8\v2.50\avr\avr\include\math.h:
+
+teclado.h:
 
 def_principais.h:
 
@@ -66,6 +79,6 @@ f:\program\ files\microchip\xc8\v2.50\avr\avr\include\avr\interrupt.h:
 
 LCD.h:
 
-teclado.h:
+f:\program\ files\microchip\xc8\v2.50\avr\lib\gcc\avr\5.4.0\include\stdbool.h:
 
 eeprom.h:

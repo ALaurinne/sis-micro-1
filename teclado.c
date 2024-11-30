@@ -8,27 +8,27 @@
 #define tst_bit(y, bit) ((y) & (1 << (bit)))
 
 // Matriz do teclado (4x4)
-const unsigned char teclado[4][4] PROGMEM = {
-	{'1', '2', '3', 'F'},
-	{'4', '5', '6', 'E'},
-	{'7', '8', '9', 'D'},
-	{'A', '0', 'B', 'C'}
+const unsigned char teclado[4][3] = {
+	{'1', '2', '3'},
+	{'4', '5', '6'},
+	{'7', '8', '9'},
+	{'*', '0', '#'}
 };
 
-// Fun��o para ler o teclado
+// Funï¿½ï¿½o para ler o teclado
 unsigned char ler_teclado() {
-	unsigned char n, j, tecla = 0xFF, linha;
+	unsigned char n, j, tecla = 0xFF, col;
 
 	for (n = 0; n < 4; n++) {
-		PORTD = 0xFF;           // Inicializa todas as colunas como alto (1)
-		clr_bit(PORTD, n);      // Abaixa apenas a coluna `n`
-		_delay_ms(5);           // Atraso para estabiliza��o
+		PORTD = 0xFF;           // Inicializa todas as linhas como alto (1)
+		clr_bit(PORTD, n);      // Abaixa apenas a linha `n`
+		_delay_ms(5);           // Atraso para estabilizaï¿½ï¿½o
 
-		linha = (PIND & 0xF0) >> 4; // Isola os 4 bits mais significativos (linhas)
+		col = (PIND & 0x70) >> 4; // Isola os 4 bits mais significativos (linhas)
 
-		for (j = 0; j < 4; j++) {
-			if (tst_bit(linha, j)) { // Se a linha est� alta (tecla pressionada)
-				tecla = pgm_read_byte(&teclado[j][n]); // Decodifica a tecla
+		for (j = 0; j < 3; j++) {
+			if (!tst_bit(col, j)) { // Se a linha estï¿½ alta (tecla pressionada)
+				tecla = (teclado[n][j]); // Decodifica a tecla
 				break; // Sai do loop interno
 			}
 		}

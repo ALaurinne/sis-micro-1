@@ -1,0 +1,63 @@
+<circuit version="1.1.0-SR1" rev="2005" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
+
+<item itemtype="MCU" CircId="mega328-1" mainComp="false" Show_id="true" Show_Val="false" Pos="-176,-356" rotation="0" hflip="1" vflip="1" label="mega328-1" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="16 MHz" Program="dist/default/production/Fechadura.X.production.hex" Auto_Load="false" saveEepr="true" Logic_Symbol="false" Rst_enabled="false" Ext_Osc="false" Wdt_enabled="false" Clk_Out="false" MainMcu="true" eeprom="49,50,51,52,0,0,0," SerialMon="-1" />
+
+<item itemtype="KeyPad" CircId="KeyPad-2" mainComp="false" Show_id="false" Show_Val="false" Pos="-272,-352" rotation="0" hflip="1" vflip="1" label="KeyPad-2" idLabPos="-8,-16" labelrot="0" valLabPos="-16,20" valLabRot="0" Rows="4" Cols="3" Key_Labels="123456789*0#" />
+
+<item itemtype="Led" CircId="Led-5" mainComp="false" Show_id="false" Show_Val="false" Pos="-116,-488" rotation="0" hflip="1" vflip="1" label="Led-5" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Green" Grounded="true" Threshold="3.5 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
+
+<item itemtype="Led" CircId="Led-6" mainComp="false" Show_id="false" Show_Val="false" Pos="-280,16" rotation="0" hflip="1" vflip="1" label="Led-6" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Red" Grounded="false" Threshold="1.8 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
+
+<item itemtype="AudioOut" CircId="AudioOut-8" mainComp="false" Show_id="false" Show_Val="false" Pos="-84,0" rotation="0" hflip="1" vflip="1" label="AudioOut-8" idLabPos="-20,-36" labelrot="0" valLabPos="-16,20" valLabRot="0" Buzzer="false" Impedance="8 Ω" Frequency="1 kHz" />
+
+<item itemtype="Hd44780" CircId="Hd44780-9" mainComp="false" Show_id="true" Show_Val="false" Pos="-80,-400" rotation="0" hflip="1" vflip="1" label="Hd44780-9" idLabPos="70,-82" labelrot="0" valLabPos="-16,20" valLabRot="0" Rows="2" Cols="16" />
+
+<item itemtype="Led" CircId="Led-15" mainComp="false" Show_id="false" Show_Val="false" Pos="-72,-488" rotation="0" hflip="1" vflip="1" label="Led-15" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Purple" Grounded="true" Threshold="3.5 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
+
+<item itemtype="Ground" CircId="Ground-16" mainComp="false" Show_id="false" Show_Val="false" Pos="-192,-412" rotation="0" hflip="1" vflip="1" label="Ground-16" idLabPos="-16,8" labelrot="0" valLabPos="-16,20" valLabRot="0" />
+
+<item itemtype="Node" CircId="Node-31" mainComp="false" Pos="-56,-376" />
+
+<item itemtype="Node" CircId="Node-32" mainComp="false" Pos="-40,-376" />
+
+<item itemtype="Connector" uid="Connector-1" startpinid="KeyPad-2-Pin0" endpinid="mega328-1-PORTD0" pointList="-224,-344,-184,-344,-184,-340" />
+
+<item itemtype="Connector" uid="Connector-2" startpinid="KeyPad-2-Pin1" endpinid="mega328-1-PORTD1" pointList="-224,-328,-184,-328,-184,-332" />
+
+<item itemtype="Connector" uid="Connector-3" startpinid="KeyPad-2-Pin2" endpinid="mega328-1-PORTD2" pointList="-224,-312,-204,-312,-204,-324,-184,-324" />
+
+<item itemtype="Connector" uid="Connector-4" startpinid="KeyPad-2-Pin3" endpinid="mega328-1-PORTD3" pointList="-224,-296,-200,-296,-200,-316,-184,-316" />
+
+<item itemtype="Connector" uid="Connector-5" startpinid="KeyPad-2-Pin4" endpinid="mega328-1-PORTD4" pointList="-272,-280,-192,-280,-192,-308,-184,-308" />
+
+<item itemtype="Connector" uid="Connector-6" startpinid="KeyPad-2-Pin5" endpinid="mega328-1-PORTD5" pointList="-256,-280,-256,-268,-184,-268" />
+
+<item itemtype="Connector" uid="Connector-7" startpinid="KeyPad-2-Pin6" endpinid="mega328-1-PORTD6" pointList="-240,-280,-240,-260,-184,-260" />
+
+<item itemtype="Connector" uid="Connector-9" startpinid="Hd44780-9-PinRS" endpinid="mega328-1-PORTB4" pointList="-64,-392,-64,-268,-136,-268" />
+
+<item itemtype="Connector" uid="Connector-10" startpinid="Hd44780-9-PinEn" endpinid="mega328-1-PORTB5" pointList="-48,-392,-48,-276,-136,-276" />
+
+<item itemtype="Connector" uid="Connector-11" startpinid="Hd44780-9-dataPin7" endpinid="mega328-1-PORTB0" pointList="16,-392,16,-224,-184,-224,-184,-244" />
+
+<item itemtype="Connector" uid="Connector-12" startpinid="mega328-1-PORTB1" endpinid="Hd44780-9-dataPin6" pointList="-136,-244,8,-244,8,-392" />
+
+<item itemtype="Connector" uid="Connector-13" startpinid="Hd44780-9-dataPin5" endpinid="mega328-1-PORTB2" pointList="0,-392,0,-252,-136,-252" />
+
+<item itemtype="Connector" uid="Connector-14" startpinid="Hd44780-9-dataPin4" endpinid="mega328-1-PORTB3" pointList="-8,-392,-8,-260,-136,-260" />
+
+<item itemtype="Connector" uid="Connector-30" startpinid="Led-5-lPin" endpinid="mega328-1-PORTC5" pointList="-132,-488,-132,-348,-136,-348" />
+
+<item itemtype="Connector" uid="Connector-33" startpinid="Led-15-lPin" endpinid="mega328-1-PORTC4" pointList="-88,-488,-88,-340,-136,-340" />
+
+<item itemtype="Connector" uid="Connector-92" startpinid="Ground-16-Gnd" endpinid="Node-31-0" pointList="-192,-428,-104,-428,-104,-376,-56,-376" />
+
+<item itemtype="Connector" uid="Connector-93" startpinid="Node-31-2" endpinid="Hd44780-9-PinRW" pointList="-56,-376,-56,-392" />
+
+<item itemtype="Connector" uid="Connector-95" startpinid="Node-31-1" endpinid="Node-32-0" pointList="-56,-376,-40,-376" />
+
+<item itemtype="Connector" uid="Connector-96" startpinid="Node-32-2" endpinid="Hd44780-9-dataPin0" pointList="-40,-376,-40,-392" />
+
+<item itemtype="Connector" uid="Connector-108" startpinid="Hd44780-9-dataPin1" endpinid="Node-32-1" pointList="-32,-392,-32,-376,-40,-376" />
+
+</circuit>
