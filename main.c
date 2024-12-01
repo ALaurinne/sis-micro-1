@@ -22,8 +22,10 @@ const char msg_incorreto[] = "Senha incorreta!";
 
 #define EEPROM_SENHA_START 0x00 // Endereï¿½o inicial da senha na EEPROM
 #define TAM_SENHA 4 // Tamanho da senha (nï¿½mero de dï¿½gitos)
+#define LIM_TENT 3
 #define LED PC5
 #define RED PC4
+#define SOUND PC3
 
 // Funï¿½ï¿½o principal
 int main() {
@@ -31,23 +33,22 @@ int main() {
 	unsigned char senha_salva[TAM_SENHA];
 	unsigned char nr;
 	unsigned char indice = 0;
+    int tent = 0;
     bool botao_pressionado = false;
 
 	DDRB = 0xFF;  // LCD no PORTB
 	DDRD = 0x0F;   // Saida de D0 a D3 e entrada de D4 a D7
 	PORTD = 0xF0;
-
-    DDRC = 0xFF; //configura todos os pinos do PORTB como saï¿½das
+	DDRC = 0xFF; //configura todos os pinos do PORTB como saï¿½das
 
 	EEPROM_escrita(0x00, '1');
 	EEPROM_escrita(0x01, '2');
 	EEPROM_escrita(0x02, '3');
 	EEPROM_escrita(0x03, '4');
 
-	// Inicializaï¿½ï¿½o do LCD
 	inic_LCD_4bits();
 	escreve_LCD(mensagem1);
-	cmd_LCD(0xC0, 0); // Cursor na segunda linha
+	cmd_LCD(0xC0, 0);
 	escreve_LCD(mensagem2);
 
 	// Leitura da senha salva na EEPROM
@@ -57,8 +58,10 @@ int main() {
 
 	while (1) {
         
+        clr_bit(PORTC,SOUND); 
         clr_bit(PORTC,RED); 
         clr_bit(PORTC,LED); 
+        
         
         _delay_ms(200); //liga LED
 		nr = ler_teclado(); // Lï¿½ o teclado constantemente
@@ -66,7 +69,7 @@ int main() {
 
 		if (nr != 0xFF && !botao_pressionado ) { // Se uma tecla foi pressionada
             botao_pressionado = true;
-			cmd_LCD(0xC7 + indice, 0); // Atualiza cursor no LCD
+			//cmd_LCD(0xC7 + indice, 0); // Atualiza cursor no LCD
 			cmd_LCD(nr, 1); // Exibe o dï¿½gito no LCD
 			senha_digitada[indice] = nr; // Armazena o dï¿½gito
 			indice++;
@@ -83,16 +86,42 @@ int main() {
 
 				// Exibe resultado no LCD
 				cmd_LCD(0xC0, 0); // Move para a segunda linha
+                _delay_ms(1000);
+                
 				if (senha_correta) {
 					escreve_LCD(msg_correto);
                     set_bit(PORTC,LED); 
 					} else {
 					escreve_LCD(msg_incorreto);
                     set_bit(PORTC,RED); 
+                    tent++;
+                    if(tent == LIM_TENT){
+                        set_bit(PORTC,SOUND);
+                        _delay_ms(10000);
+                        
+                        clr_bit(PORTC,SOUND);
+                        _delay_ms(10000);
+                        
+                        set_bit(PORTC,SOUND);
+                        _delay_ms(10000);
+                        
+                        clr_bit(PORTC,SOUND);
+                        _delay_ms(10000);
+                        
+                         set_bit(PORTC,SOUND);
+                        _delay_ms(10000);
+                        
+                        clr_bit(PORTC,SOUND);
+                        _delay_ms(10000);
+                        
+                        
+                        
+                        tent = 0;
+                    }
 				}
 
 				// Limpa ï¿½ndice para nova entrada
-				_delay_ms(10000); // Pausa para leitura
+				_delay_ms(20000); // Pausa para leitura
 				cmd_LCD(0x01, 0); // Limpa LCD
 				escreve_LCD(mensagem2);
 				indice = 0;
